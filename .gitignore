@@ -1,5 +1,7 @@
 anianki/images/*
+anianki/user_files/images/*
 anianki/__pycache__
+anianki/meta.json
 .idea/
 .pyenv
 !anianki/images/anki.png

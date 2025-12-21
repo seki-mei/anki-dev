@@ -5,14 +5,15 @@ from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
 import os, random
 
+config = mw.addonManager.getConfig(__name__)
 ADDON_DIR = os.path.dirname(__file__)
-IMAGES_DIR = os.path.join(ADDON_DIR, "images")
+IMAGES_DIR = os.path.join(ADDON_DIR, "user_files/images")
 IMAGE_PATH = os.path.join(IMAGES_DIR, "snow.png")
 
-TESTING = False
+TESTING = config["test"]
 
-NORMAL_CHANCE = 0.50
-AGAIN_CHANCE  = 0.2
+NORMAL_CHANCE = config["normal_prob"]
+AGAIN_CHANCE  = config["again_prob"]
 HARD_CHANCE   = NORMAL_CHANCE
 EASY_CHANCE   = NORMAL_CHANCE
 
