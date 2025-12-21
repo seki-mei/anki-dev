@@ -1,3 +1,5 @@
 anianki/images/*
 anianki/__pycache__
+.idea/
+.pyenv
 !anianki/images/anki.png
