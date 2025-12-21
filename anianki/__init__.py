@@ -9,7 +9,7 @@ ADDON_DIR = os.path.dirname(__file__)
 IMAGES_DIR = os.path.join(ADDON_DIR, "images")
 IMAGE_PATH = os.path.join(IMAGES_DIR, "snow.png")
 
-TESTING = True
+TESTING = False
 
 NORMAL_CHANCE = 0.50
 AGAIN_CHANCE  = 0.2
