@@ -10,6 +10,8 @@ ADDON_DIR = os.path.dirname(__file__)
 IMAGES_DIR = os.path.join(ADDON_DIR, "images")
 IMAGE_PATH = os.path.join(IMAGES_DIR, "snow.png")
 
+TESTING = False
+
 NORMAL_CHANCE = 0.50
 AGAIN_CHANCE  = 0.2
 HARD_CHANCE   = NORMAL_CHANCE
@@ -69,7 +71,7 @@ def dialog_launcher(chance):
         dialog.show()
 
 def testOnStartup():
-    dialog_launcher(1)
+    dialog_launcher(float(TESTING)) # 100% chance if testing, 0% if not
 
 def answered_popup(reviewer, card, ease):
     chance = (0, AGAIN_CHANCE, HARD_CHANCE, NORMAL_CHANCE, EASY_CHANCE)[ease]
