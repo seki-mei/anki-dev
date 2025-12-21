@@ -1,5 +1,4 @@
 from aqt import mw
-from aqt.utils import showInfo, tooltip
 
 from PyQt6.QtWidgets import QDialog, QLabel, QVBoxLayout
 from PyQt6.QtGui import QPixmap
@@ -10,7 +9,7 @@ ADDON_DIR = os.path.dirname(__file__)
 IMAGES_DIR = os.path.join(ADDON_DIR, "images")
 IMAGE_PATH = os.path.join(IMAGES_DIR, "snow.png")
 
-TESTING = False
+TESTING = True
 
 NORMAL_CHANCE = 0.50
 AGAIN_CHANCE  = 0.2
