@@ -1,32 +1,31 @@
-from aqt import mw
-from aqt import gui_hooks
+from aqt import mw, gui_hooks
 from PyQt6.QtWidgets import QDialog, QLabel, QVBoxLayout
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QKeyEvent
 import os
 import random
+from typing import Any
 
-config = mw.addonManager.getConfig(__name__)
-ADDON_DIR = os.path.dirname(__file__)
-IMAGES_DIR = os.path.join(ADDON_DIR, "user_files/images")
-IMAGE_PATH = os.path.join(IMAGES_DIR, "snow.png")
+config: dict[str, Any] = mw.addonManager.getConfig(__name__)
+ADDON_DIR: str = os.path.dirname(__file__)
+IMAGES_DIR: str = os.path.join(ADDON_DIR, "user_files/images")
 
-TESTING = config["test"]
-
-NORMAL_CHANCE = config["normal_prob"]
-AGAIN_CHANCE = config["again_prob"]
-HARD_CHANCE = NORMAL_CHANCE
-EASY_CHANCE = NORMAL_CHANCE
+TESTING: bool = config["test"]
+NORMAL_CHANCE: float = config["normal_prob"]
+AGAIN_CHANCE: float = config["again_prob"]
+HARD_CHANCE: float = NORMAL_CHANCE
+EASY_CHANCE: float= NORMAL_CHANCE
 
 
-def pick_random_image():
+def pick_random_image() -> str:
     files = [f for f in os.listdir(IMAGES_DIR)
              if os.path.isfile(os.path.join(IMAGES_DIR, f))]  # filter files
     return os.path.join(IMAGES_DIR, random.choice(files))
 
 
 class WellDoneDialog(QDialog):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None) -> None:
         super().__init__(parent)
 
         self.setModal(True)  # prevent input in other windows
@@ -60,7 +59,7 @@ class WellDoneDialog(QDialog):
 
         self.adjustSize()
 
-    def keyPressEvent(self, event):
+    def keyPressEvent(self, event: QKeyEvent) -> None:
         close_keys = (Qt.Key.Key_Return,
                       Qt.Key.Key_Enter,
                       Qt.Key.Key_Space)
@@ -70,20 +69,20 @@ class WellDoneDialog(QDialog):
             super().keyPressEvent(event)
 
 
-def dialog_launcher(chance):
+def dialog_launcher(chance:float) -> None:
     if random.random() <= chance:
         dialog = WellDoneDialog(mw)
         dialog.show()
 
 
-def testOnStartup():
-    dialog_launcher(float(TESTING))  # 100% chance if testing, 0% if not
+def test_on_startup() -> None:
+    dialog_launcher(1.0 if TESTING else 0.0)  # 100% chance if testing, 0% if not
 
 
-def answered_popup(reviewer, card, ease):
+def answered_popup(reviewer, card, ease: int) -> None:
     chance = (0, AGAIN_CHANCE, HARD_CHANCE, NORMAL_CHANCE, EASY_CHANCE)[ease]
     dialog_launcher(chance)
 
 
-gui_hooks.main_window_did_init.append(testOnStartup)
+gui_hooks.main_window_did_init.append(test_on_startup)
 gui_hooks.reviewer_did_answer_card.append(answered_popup)
