@@ -14,7 +14,7 @@ TESTING: bool = config["test"]
 NORMAL_CHANCE: float = config["normal_prob"]
 AGAIN_CHANCE: float = config["again_prob"]
 HARD_CHANCE: float = NORMAL_CHANCE
-EASY_CHANCE: float= NORMAL_CHANCE
+EASY_CHANCE: float = NORMAL_CHANCE
 
 
 def pick_random_image() -> str:
@@ -75,7 +75,7 @@ def dialog_launcher(chance:float) -> None:
 
 
 def test_on_startup() -> None:
-    dialog_launcher(1.0 if TESTING else 0.0)  # 100% chance if testing, 0% if not
+    dialog_launcher(1.0 if TESTING else 0.0)
 
 
 def answered_popup(reviewer, card, ease: int) -> None:
