@@ -1,8 +1,7 @@
 from aqt import mw, gui_hooks
 from PyQt6.QtWidgets import QDialog, QLabel, QVBoxLayout
-from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QKeyEvent
+from PyQt6.QtGui import QPixmap, QKeyEvent
 import os
 import random
 from typing import Any
