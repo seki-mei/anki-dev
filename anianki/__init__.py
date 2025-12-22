@@ -1,9 +1,10 @@
 from aqt import mw
-
+from aqt import gui_hooks
 from PyQt6.QtWidgets import QDialog, QLabel, QVBoxLayout
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
-import os, random
+import os
+import random
 
 config = mw.addonManager.getConfig(__name__)
 ADDON_DIR = os.path.dirname(__file__)
@@ -13,14 +14,14 @@ IMAGE_PATH = os.path.join(IMAGES_DIR, "snow.png")
 TESTING = config["test"]
 
 NORMAL_CHANCE = config["normal_prob"]
-AGAIN_CHANCE  = config["again_prob"]
-HARD_CHANCE   = NORMAL_CHANCE
-EASY_CHANCE   = NORMAL_CHANCE
+AGAIN_CHANCE = config["again_prob"]
+HARD_CHANCE = NORMAL_CHANCE
+EASY_CHANCE = NORMAL_CHANCE
 
 
 def pick_random_image():
     files = [f for f in os.listdir(IMAGES_DIR)
-             if os.path.isfile(os.path.join(IMAGES_DIR, f))] # filter files
+             if os.path.isfile(os.path.join(IMAGES_DIR, f))]  # filter files
     return os.path.join(IMAGES_DIR, random.choice(files))
 
 
@@ -28,7 +29,7 @@ class WellDoneDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        self.setModal(True) # prevent input in other windows
+        self.setModal(True)  # prevent input in other windows
         self.setWindowFlags(
             Qt.WindowType.Tool | Qt.WindowType.FramelessWindowHint
         )
@@ -44,7 +45,7 @@ class WellDoneDialog(QDialog):
         screen = self.screen()
         if screen is not None:
             geom = screen.availableGeometry()
-            max_width  = int(geom.width())
+            max_width = int(geom.width())
             max_height = int(geom.height())
             if pixmap.width() > max_width or pixmap.height() > max_height:
                 pixmap = pixmap.scaled(
@@ -60,24 +61,29 @@ class WellDoneDialog(QDialog):
         self.adjustSize()
 
     def keyPressEvent(self, event):
-        if event.key() in (Qt.Key.Key_Return, Qt.Key.Key_Enter, Qt.Key.Key_Space):
+        close_keys = (Qt.Key.Key_Return,
+                      Qt.Key.Key_Enter,
+                      Qt.Key.Key_Space)
+        if event.key() in close_keys:
             self.close()
         else:
             super().keyPressEvent(event)
+
 
 def dialog_launcher(chance):
     if random.random() <= chance:
         dialog = WellDoneDialog(mw)
         dialog.show()
 
+
 def testOnStartup():
-    dialog_launcher(float(TESTING)) # 100% chance if testing, 0% if not
+    dialog_launcher(float(TESTING))  # 100% chance if testing, 0% if not
+
 
 def answered_popup(reviewer, card, ease):
     chance = (0, AGAIN_CHANCE, HARD_CHANCE, NORMAL_CHANCE, EASY_CHANCE)[ease]
     dialog_launcher(chance)
 
-# Hook into Ani
-from aqt import gui_hooks
+
 gui_hooks.main_window_did_init.append(testOnStartup)
 gui_hooks.reviewer_did_answer_card.append(answered_popup)
