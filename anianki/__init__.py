@@ -1,4 +1,5 @@
 from aqt import mw, gui_hooks
+from aqt.utils import showInfo
 from PyQt6.QtWidgets import QDialog, QLabel, QVBoxLayout
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPixmap, QKeyEvent
@@ -10,21 +11,32 @@ config: dict[str, Any] = mw.addonManager.getConfig(__name__)
 ADDON_DIR: str = os.path.dirname(__file__)
 IMAGES_DIR: str = os.path.join(ADDON_DIR, "user_files/images")
 
-TESTING: bool = config["test"]
-NORMAL_CHANCE: float = config["normal_prob"]
-AGAIN_CHANCE: float = config["again_prob"]
-HARD_CHANCE: float = NORMAL_CHANCE
-EASY_CHANCE: float = NORMAL_CHANCE
+TESTING: bool = config.get("test", False)
+NORMAL_CHANCE: float = config.get("normal_prob", 0.2)
+AGAIN_CHANCE: float = config.get("again_prob", NORMAL_CHANCE)
+HARD_CHANCE: float = config.get("hard_prob", NORMAL_CHANCE)
+EASY_CHANCE: float = config.get("easy_prob", NORMAL_CHANCE)
+
+ERROR_HEADER: str = "anianki addon:\n"
+
+def images_dir_safe() -> bool:
+    if not os.path.isdir(IMAGES_DIR): ## dir doesn't exist
+        showInfo(ERROR_HEADER+"images folder doesn't exist\ncan't run anianki")
+        return False
+    if not os.listdir(IMAGES_DIR): ## dir empty
+        showInfo(ERROR_HEADER+"images folder empty")
+        return False
+    return True
 
 
 def pick_random_image() -> str:
     files = [f for f in os.listdir(IMAGES_DIR)
-             if os.path.isfile(os.path.join(IMAGES_DIR, f))]  # filter files
+             if os.path.isfile(os.path.join(IMAGES_DIR, f))]  # filter files, no folders
     return os.path.join(IMAGES_DIR, random.choice(files))
 
 
 class WellDoneDialog(QDialog):
-    def __init__(self, parent=None) -> None:
+    def __init__(self, imagepath: str, parent=None) -> None:
         super().__init__(parent)
 
         self.setModal(True)  # prevent input in other windows
@@ -38,7 +50,7 @@ class WellDoneDialog(QDialog):
         label = QLabel(self)
         label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        pixmap = QPixmap(pick_random_image())
+        pixmap = QPixmap(imagepath)
 
         screen = self.screen()
         if screen is not None:
@@ -69,8 +81,16 @@ class WellDoneDialog(QDialog):
 
 
 def dialog_launcher(chance:float) -> None:
-    if random.random() <= chance:
-        dialog = WellDoneDialog(mw)
+    if random.random() <= chance and images_dir_safe():
+
+        # user should be told if we tried to load an unsupported image
+        imagepath: str = pick_random_image()
+        pixmap = QPixmap(imagepath)
+        if pixmap.isNull():
+            showInfo(ERROR_HEADER+"couldn't load file\n"+imagepath+"\nfiletype might be unsupported")
+            return
+
+        dialog = WellDoneDialog(imagepath, mw)
         dialog.show()
 
 
@@ -81,7 +101,6 @@ def test_on_startup() -> None:
 def answered_popup(reviewer, card, ease: int) -> None:
     chance = (0, AGAIN_CHANCE, HARD_CHANCE, NORMAL_CHANCE, EASY_CHANCE)[ease]
     dialog_launcher(chance)
-
 
 gui_hooks.main_window_did_init.append(test_on_startup)
 gui_hooks.reviewer_did_answer_card.append(answered_popup)
