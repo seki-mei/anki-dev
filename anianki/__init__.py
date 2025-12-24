@@ -13,11 +13,12 @@ IMAGES_DIR: str = os.path.join(ADDON_DIR, "user_files/images")
 
 TESTING: bool = config.get("test", False)
 NORMAL_CHANCE: float = config.get("normal_prob", 0.2)
-AGAIN_CHANCE: float = config.get("again_prob", NORMAL_CHANCE)
-HARD_CHANCE: float = config.get("hard_prob", NORMAL_CHANCE)
-EASY_CHANCE: float = config.get("easy_prob", NORMAL_CHANCE)
+AGAIN_CHANCE: float = config.get("again_prob", 0.0)
+HARD_CHANCE: float = config.get("hard_prob", 0.0)
+EASY_CHANCE: float = config.get("easy_prob", 0.0)
 
 ERROR_HEADER: str = "anianki addon:\n"
+
 
 def images_dir_safe() -> bool:
     if not os.path.isdir(IMAGES_DIR): ## dir doesn't exist
