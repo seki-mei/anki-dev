@@ -22,5 +22,5 @@ Alternatively, you can reach the path in your file explorer:
 The values are probabilities from 0.00 (0%) to 1.00 (100%) of a picture showing up when you press the associated button.
 
 ### see also:
-- [Anki-Review-PopUp](https://github.com/noobj2/Anki-Review-PopUp)
+- [Anki-Review-PopUp](https://ankiweb.net/shared/info/976516370)
 - [Puppy Reinforcement](https://ankiweb.net/shared/info/1722658993)
