@@ -1,6 +1,7 @@
 anianki/user_files/images/*
 anianki/__pycache__
 anianki/meta.json
+*.ankiaddon
 .idea/
 .pyenv
 !anianki/user_files/images/anki.png
