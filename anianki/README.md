@@ -1,10 +1,10 @@
-this addon displays pictures when you answer cards.
+This addon displays pictures when you answer cards.
 
 ### adding your own images
-1. `Tools` -> `Add-ons`
-2. select `anianki` from the list and click `view files`
-3. your file explorer should open the add-on's folder. From there, open `user_files` and then `images`
-4. copy your images there
+1. `Tools` -> `Add-ons`.
+2. select `anianki` from the list and click `view files`. This should open the add-on's folder in your file manager.
+3. From there, open `user_files` and then `images`.
+4. Copy your images there.
 
 Alternatively, you can reach the path in your file explorer:  
 **Windows**  
@@ -16,10 +16,10 @@ Alternatively, you can reach the path in your file explorer:
 `~/.var/app/net.ankiweb.Anki/data/Anki2/addons21/anianki/user_files/images`
 
 ### adjusting pop-up frequency
-1. `Tools` -> `Add-ons`
-2. select `anianki` from the list and click `config`
-3. adjust the values of "again_prob", "hard_prob", "normal_prob", "easy_prob"
-the values are probabilities from 0.00 (0%) to 1.00 (100%) of a picture showing up when you press the associated button
+1. `Tools` -> `Add-ons`.
+2. Select `anianki` from the list and click `config`.
+3. Adjust the values of "again_prob", "hard_prob", "normal_prob", "easy_prob".
+The values are probabilities from 0.00 (0%) to 1.00 (100%) of a picture showing up when you press the associated button.
 
 ### see also:
 - [Anki-Review-PopUp](https://github.com/noobj2/Anki-Review-PopUp)
