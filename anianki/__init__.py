@@ -36,7 +36,7 @@ def pick_random_image() -> str:
 
 
 class WellDoneDialog(QDialog):
-    def __init__(self, imagepath: str, parent=None) -> None:
+    def __init__(self, image_path: str, parent=None) -> None:
         super().__init__(parent)
 
         self.setModal(True)  # prevent input in other windows
@@ -50,7 +50,7 @@ class WellDoneDialog(QDialog):
         label = QLabel(self)
         label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        pixmap = QPixmap(imagepath)
+        pixmap = QPixmap(image_path)
 
         screen = self.screen()
         if screen is not None:
@@ -84,13 +84,13 @@ def dialog_launcher(chance:float) -> None:
     if random.random() <= chance and images_dir_safe():
 
         # user should be told if we tried to load an unsupported image
-        imagepath: str = pick_random_image()
-        pixmap = QPixmap(imagepath)
+        image_path: str = pick_random_image()
+        pixmap = QPixmap(image_path)
         if pixmap.isNull():
-            showInfo(ERROR_HEADER+"couldn't load file\n"+imagepath+"\nfiletype might be unsupported")
+            showInfo(ERROR_HEADER+"couldn't load file\n"+image_path+"\nfiletype might be unsupported")
             return
 
-        dialog = WellDoneDialog(imagepath, mw)
+        dialog = WellDoneDialog(image_path, mw)
         dialog.show()
 
 
