@@ -1,4 +1,4 @@
-This addon displays pictures when you answer cards.
+Motivational Anki add-on that displays random images when you answer cards, for positive reinforcement during study sessions.
 
 ### adding your own images
 1. `Tools` -> `Add-ons`.
