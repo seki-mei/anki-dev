@@ -1,5 +1,7 @@
 Motivational Anki add-on that displays random images when you answer cards, for positive reinforcement during study sessions.
 
+You can add your own images and configure the probability per answer button (Again/Hard/Good/Easy)
+
 ### adding your own images
 1. `Tools` -> `Add-ons`.
 2. select `anianki` from the list and click `view files`. This should open the add-on's folder in your file manager.
