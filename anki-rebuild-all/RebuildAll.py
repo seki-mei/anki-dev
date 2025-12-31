@@ -13,6 +13,8 @@ from anki.hooks import wrap
 from aqt import mw
 from aqt.deckbrowser import DeckBrowser
 from aqt.utils import tooltip
+from aqt.qt import QAction
+from aqt import gui_hooks
 
 
 def _updateFilteredDecks(actionFuncName):
@@ -51,3 +53,20 @@ def _addButtons(self):
 
 DeckBrowser._drawButtons = wrap(DeckBrowser._drawButtons, _addButtons, "before")
 DeckBrowser._linkHandler = wrap(DeckBrowser._linkHandler, _handleFilteredDeckButtons, "after")
+
+
+def setupMenu():
+    menu = mw.form.menuTools
+    menu.addSeparator()
+
+    # Rebuild All action
+    rebuildAction = QAction("Rebuild Filtered Decks", mw)
+    rebuildAction.triggered.connect(lambda: _updateFilteredDecks("rebuildDyn"))
+    menu.addAction(rebuildAction)
+
+    # Empty All action
+    emptyAction = QAction("Empty Filtered Decks", mw)
+    emptyAction.triggered.connect(lambda: _updateFilteredDecks("emptyDyn"))
+    menu.addAction(emptyAction)
+
+gui_hooks.main_window_did_init.append(lambda: setupMenu())
